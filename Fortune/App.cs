@@ -5,11 +5,13 @@ namespace Fortune
 {
 	public class App
 	{
+		private readonly IDateTimeOffset _dateTimeOffset;
 		private readonly IFortuneCookie _fortuneCookie;
 		private readonly IConsole _console;
 
-		public App(IFortuneCookie fortuneCookie, IConsole console)
+		public App(IDateTimeOffset dateTimeOffset, IFortuneCookie fortuneCookie, IConsole console)
 		{
+			_dateTimeOffset = dateTimeOffset;
 			_fortuneCookie = fortuneCookie;
 			_console = console;
 		}
@@ -27,8 +29,13 @@ namespace Fortune
 				DateOfBirth = dob
 			};
 
+			var now = _dateTimeOffset.Now;
+			bool todayIsBirthday = now.Day == person.DateOfBirth.Day && now.Month == person.DateOfBirth.Month;
+
+			string greeting = todayIsBirthday ? "Happy birthday, {0}!" : "Hi {0}!";
+
 			_console.WriteLine(
-				"Hi {0}!\nYour fortune for today is: {1}",
+				greeting + "\nYour fortune for today is: {1}",
 				person.Name,
 				_fortuneCookie.GetTodaysFortune());
 
