@@ -5,5 +5,6 @@
 		void Write(string value);
 		void WriteLine(string value, params string[] args);
 		string ReadLine();
+		string Prompt(string message);
 	}
 }

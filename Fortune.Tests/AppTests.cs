@@ -24,17 +24,15 @@ namespace Fortune.Tests
 			_app.Run();
 
 			// Assert
-			A.CallTo(() => _console.Write("What's your name? ")).MustHaveHappenedOnceExactly()
-				.Then(A.CallTo(() => _console.ReadLine()).MustHaveHappened())
-				.Then(A.CallTo(() => _console.Write("When were you born (dd/mm/yyyy)? ")).MustHaveHappenedOnceExactly())
-				.Then(A.CallTo(() => _console.ReadLine()).MustHaveHappened());
+			A.CallTo(() => _console.Prompt("What's your name?")).MustHaveHappenedOnceExactly()
+				.Then(A.CallTo(() => _console.Prompt("When were you born (dd/mm/yyyy)?")).MustHaveHappenedOnceExactly());
 		}
 
 		[Test]
 		public void Run_GivenTheUserHasEnteredTheirName_ItGreetsTheUserAndTellsThemTheirFortune()
 		{
 			// Arrange
-			A.CallTo(() => _console.ReadLine()).Returns("Jane Doe");
+			A.CallTo(() => _console.Prompt("What's your name?")).Returns("Jane Doe");
 			A.CallTo(() => _fortuneCookie.GetTodaysFortune()).Returns("Certain bears do not harm humans. Today you will meet no such bears.");
 
 			// Act

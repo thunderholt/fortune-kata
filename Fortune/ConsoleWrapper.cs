@@ -18,5 +18,12 @@ namespace Fortune
 		{
 			return Console.ReadLine();
 		}
+
+		public string Prompt(string message)
+		{
+			Console.Write(message);
+			Console.Write(" ");
+			return Console.ReadLine();
+		}
 	}
 }
