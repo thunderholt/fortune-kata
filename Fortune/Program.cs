@@ -21,6 +21,7 @@ namespace Fortune
 			serviceCollection
 				.AddTransient<App>()
 				.AddSingleton<IDateTimeOffset, DateTimeOffsetWrapper>()
+				.AddSingleton<IConsole, ConsoleWrapper>()
 				.AddTransient<FortuneCookie>();
 		}
 	}
