@@ -18,6 +18,9 @@ namespace Fortune
 			_console.Write("What's your name? ");
 			var name = _console.ReadLine();
 
+			_console.Write("When were you born (dd/mm/yyyy)? ");
+			_console.ReadLine();
+
 			var person = new Person {Name = name};
 
 			_console.WriteLine(
