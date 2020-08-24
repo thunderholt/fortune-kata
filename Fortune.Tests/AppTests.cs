@@ -4,8 +4,9 @@ using NUnit.Framework;
 
 namespace Fortune.Tests
 {
-    public class AppTests
-    {
+	public class AppTests
+	{
+		private IDateTimeOffset _dateTimeOffset;
 		private IFortuneCookie _fortuneCookie;
 		private IConsole _console;
 		private App _app;
@@ -13,9 +14,10 @@ namespace Fortune.Tests
 		[SetUp]
 		public void Setup()
 		{
+			_dateTimeOffset = A.Fake<IDateTimeOffset>();
 			_fortuneCookie = A.Fake<IFortuneCookie>();
 			_console = A.Fake<IConsole>();
-			_app = new App(_fortuneCookie, _console);
+			_app = new App(_dateTimeOffset, _fortuneCookie, _console);
 		}
 
 		[Test]
@@ -29,10 +31,12 @@ namespace Fortune.Tests
 				.Then(A.CallTo(() => _console.Prompt("When were you born (dd/mm/yyyy)?")).MustHaveHappenedOnceExactly());
 		}
 
-		[Test]
-		public void Run_GivenTheUserHasEnteredTheirName_ItGreetsTheUserAndTellsThemTheFortuneForTodayAndTheirBirthday()
+		[TestCase("24/08/2020", "Hi {0}!")]
+		[TestCase("14/06/2020", "Happy birthday, {0}!")]
+		public void Run_GivenTheUserHasEnteredTheirName_ItGreetsTheUserAndTellsThemTheFortuneForTodayAndTheirBirthday(string nowDateString, string expectedGreeting)
 		{
 			// Arrange
+			A.CallTo(() => _dateTimeOffset.Now).Returns(DateTimeOffset.ParseExact(nowDateString, "dd/MM/yyyy", null));
 			A.CallTo(() => _console.Prompt("What's your name?")).Returns("Jane Doe");
 			A.CallTo(() => _console.Prompt("When were you born (dd/mm/yyyy)?")).Returns("14/06/1982");
 			A.CallTo(() => _fortuneCookie.GetTodaysFortune()).Returns("Certain bears do not harm humans. Today you will meet no such bears.");
@@ -43,7 +47,7 @@ namespace Fortune.Tests
 
 			// Assert
 			A.CallTo(() => _console.WriteLine(
-				"Hi {0}!\nYour fortune for today is: {1}",
+				expectedGreeting + "\nYour fortune for today is: {1}",
 				"Jane Doe",
 				"Certain bears do not harm humans. Today you will meet no such bears."))
 				.MustHaveHappenedOnceExactly().Then(
