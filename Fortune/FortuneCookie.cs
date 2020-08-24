@@ -4,16 +4,16 @@ namespace Fortune
 {
 	public class FortuneCookie : IFortuneCookie
 	{
-		private readonly DateTimeOffset _now;
+		private readonly IDateTimeOffset _dateTimeOffset;
 
 		public FortuneCookie(IDateTimeOffset dateTimeOffset)
 		{
-			_now = dateTimeOffset.Now;
+			_dateTimeOffset = dateTimeOffset;
 		}
 
 		public string GetTodaysFortune()
 		{
-			return GetFortuneForDate(_now);
+			return GetFortuneForDate(_dateTimeOffset.Now);
 		}
 
 		public string GetFortuneForDate(DateTimeOffset date)
