@@ -18,14 +18,16 @@ namespace Fortune.Tests
 		}
 
 		[Test]
-		public void Run_ItPromptsTheUserToEnterTheirName()
+		public void Run_ItPromptsTheUserToEnterTheirNameAndDateOfBirth()
 		{
 			// Act
 			_app.Run();
 
 			// Assert
-			A.CallTo(() => _console.Write("What's your name? ")).MustHaveHappenedOnceExactly().Then(
-				A.CallTo(() => _console.ReadLine()).MustHaveHappenedOnceExactly());
+			A.CallTo(() => _console.Write("What's your name? ")).MustHaveHappenedOnceExactly()
+				.Then(A.CallTo(() => _console.ReadLine()).MustHaveHappened())
+				.Then(A.CallTo(() => _console.Write("When were you born (dd/mm/yyyy)? ")).MustHaveHappenedOnceExactly())
+				.Then(A.CallTo(() => _console.ReadLine()).MustHaveHappened());
 		}
 
 		[Test]
