@@ -4,10 +4,10 @@ namespace Fortune
 {
 	public class App
 	{
-		private readonly FortuneCookie _fortuneCookie;
+		private readonly IFortuneCookie _fortuneCookie;
 		private readonly IConsole _console;
 
-		public App(FortuneCookie fortuneCookie, IConsole console)
+		public App(IFortuneCookie fortuneCookie, IConsole console)
 		{
 			_fortuneCookie = fortuneCookie;
 			_console = console;

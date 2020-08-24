@@ -22,7 +22,7 @@ namespace Fortune
 				.AddTransient<App>()
 				.AddSingleton<IDateTimeOffset, DateTimeOffsetWrapper>()
 				.AddSingleton<IConsole, ConsoleWrapper>()
-				.AddTransient<FortuneCookie>();
+				.AddTransient<IFortuneCookie, FortuneCookie>();
 		}
 	}
 }

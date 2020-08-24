@@ -2,7 +2,7 @@
 
 namespace Fortune
 {
-	public class FortuneCookie
+	public class FortuneCookie : IFortuneCookie
 	{
 		private readonly DateTimeOffset _now;
 
